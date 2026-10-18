@@ -1,18 +1,23 @@
 /** Codex configuration through its own CLI, so we never rewrite its TOML settings. */
 import { isJsonObject, serverMatcher, type DesiredEntry } from './client-config.js';
 import { SERVER_KEY } from './layout.js';
-import type { CommandRunner } from './registry.js';
+import type { CommandResult, CommandRunner } from './registry.js';
 
 /** JSON string escaping also yields valid TOML basic strings for filesystem paths. */
 export function codexConfig(entry: DesiredEntry): string {
   return `[mcp_servers.${SERVER_KEY}]\ncommand = ${JSON.stringify(entry.command)}\nargs = ${JSON.stringify(entry.args)}\n`;
 }
 
+function failure(result: CommandResult): string {
+  // stdout from list/get can contain environment secrets; never include it in errors.
+  return result.stderr.trim() || `exit ${result.status ?? 'unknown'}`;
+}
+
 function configuredServers(runner: CommandRunner): unknown[] {
   const result = runner.run('codex', ['mcp', 'list', '--json']);
   if (result.status !== 0) {
     throw new Error(
-      'Could not read Codex MCP configuration. Ensure the Codex CLI is on PATH and its config is valid. ' +
+      `Could not read Codex MCP configuration (${failure(result)}). Ensure the Codex CLI is on PATH and its config is valid. ` +
         'Use print-config --client codex for manual setup.'
     );
   }
@@ -60,7 +65,7 @@ export function configureCodex(runner: CommandRunner, entry: DesiredEntry): 'add
   ]);
   if (result.status !== 0)
     throw new Error(
-      'Codex could not add the server. Use print-config --client codex for manual setup.'
+      `Codex could not add the server (${failure(result)}). Use print-config --client codex for manual setup.`
     );
   if (!configuredServers(runner).some(server => matches(server, entry))) {
     throw new Error('Codex did not read back the expected server configuration.');
@@ -80,7 +85,8 @@ export function removeCodex(runner: CommandRunner, entry: DesiredEntry): string[
     });
   for (const name of names) {
     const result = runner.run('codex', ['mcp', 'remove', name]);
-    if (result.status !== 0) throw new Error(`Codex could not remove server ${name}.`);
+    if (result.status !== 0)
+      throw new Error(`Codex could not remove server ${name} (${failure(result)}).`);
   }
   if (names.length > 0 && configuredServers(runner).some(server => matches(server, entry))) {
     throw new Error('Codex still lists this installation after removal.');

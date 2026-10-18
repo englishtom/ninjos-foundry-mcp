@@ -101,7 +101,7 @@ describe('Codex configuration', () => {
 
   it('does not write when Codex is unavailable or configuration cannot be read', () => {
     const runner: CommandRunner = { run: () => ({ status: null, stdout: '', stderr: 'ENOENT' }) };
-    expect(() => configureCodex(runner, entry)).toThrow('Could not read Codex');
+    expect(() => configureCodex(runner, entry)).toThrow('ENOENT');
     expect(() => removeCodex(runner, entry)).toThrow('Could not read Codex');
   });
 
@@ -109,7 +109,7 @@ describe('Codex configuration', () => {
     const runner: CommandRunner = {
       run: (_, args) => ({ status: args[1] === 'add' ? 1 : 0, stdout: '[]', stderr: '' }),
     };
-    expect(() => configureCodex(runner, entry)).toThrow('could not add');
+    expect(() => configureCodex(runner, entry)).toThrow('exit 1');
     const noWrite: CommandRunner = { run: () => ({ status: 0, stdout: '[]', stderr: '' }) };
     expect(() => configureCodex(noWrite, entry)).toThrow('did not read back');
   });

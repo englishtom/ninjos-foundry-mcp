@@ -89,7 +89,7 @@ rights for this. Then quit Claude Desktop completely and start it again.
 To try it out, just ask Claude which world is open in Foundry.
 
 For Claude Code, Codex, other clients and troubleshooting there is a detailed
-[installation guide](https://github.com/Niclasp1501/ninjos-foundry-mcp/blob/main/docs/INSTALLATION.en.md).
+[installation guide](docs/INSTALLATION.en.md).
 
 You need Foundry VTT v13 or v14, a Windows PC, and Claude Desktop, Claude Code, Codex or another program
 that speaks MCP. Foundry has to run in a browser on the same PC as the server. There is no package
@@ -189,7 +189,7 @@ noch Administratorrechte. Beende Claude Desktop danach ganz und starte es neu.
 dem Server. Frag Claude zum Ausprobieren einfach, welche Welt gerade in Foundry geöffnet ist.
 
 Für Claude Code, Codex, andere Programme und die Fehlersuche gibt es eine ausführliche
-[Installationsanleitung](https://github.com/Niclasp1501/ninjos-foundry-mcp/blob/main/docs/INSTALLATION.md).
+[Installationsanleitung](docs/INSTALLATION.md).
 
 Du brauchst Foundry VTT v13 oder v14, einen Windows-PC und Claude Desktop, Claude Code, Codex oder ein
 anderes Programm, das MCP spricht. Foundry muss dabei im Browser auf demselben PC laufen wie der
