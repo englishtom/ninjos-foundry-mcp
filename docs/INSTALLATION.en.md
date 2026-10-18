@@ -34,11 +34,12 @@ folder.
 
 ### Mac
 
-1. Download `ninjos-foundry-mcp-server-<version>-darwin-<arm64 or x64>.zip` and double
-   click it to unpack it.
-2. In the unpacked folder, **right click** `setup.command`, choose "Open", then "Open"
-   again. A plain double click is refused the first time, because the bundle is not
-   notarized by Apple yet.
+1. Choose `ninjos-foundry-mcp-server-<version>-darwin-arm64.zip` for an Apple silicon
+   Mac (M1 or later), or `darwin-x64.zip` for an Intel Mac. Unpack it with Finder.
+2. Open `setup.command`. If macOS blocks it, review the message in System Settings,
+   Privacy & Security and use "Open Anyway" only if you trust the downloaded package.
+   The bundle is not notarized. The included `node` runtime can also require approval
+   before setup or your MCP client can start it.
 3. The Terminal window shows what was set up. Press Enter.
 4. Quit Claude Desktop (Cmd+Q) and start it again.
 
