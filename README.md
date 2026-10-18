@@ -91,7 +91,7 @@ To try it out, just ask Claude which world is open in Foundry.
 For Claude Code, Codex, other clients and troubleshooting there is a detailed
 [installation guide](docs/INSTALLATION.en.md).
 
-You need Foundry VTT v13 or v14, a Windows PC, and Claude Desktop, Claude Code, Codex or another program
+You need Foundry VTT v13 or v14, a Windows PC, and Claude Desktop, Claude Code or another program
 that speaks MCP. Foundry has to run in a browser on the same PC as the server. There is no package
 for the Mac yet.
 
@@ -191,7 +191,7 @@ dem Server. Frag Claude zum Ausprobieren einfach, welche Welt gerade in Foundry 
 Für Claude Code, Codex, andere Programme und die Fehlersuche gibt es eine ausführliche
 [Installationsanleitung](docs/INSTALLATION.md).
 
-Du brauchst Foundry VTT v13 oder v14, einen Windows-PC und Claude Desktop, Claude Code, Codex oder ein
+Du brauchst Foundry VTT v13 oder v14, einen Windows-PC und Claude Desktop, Claude Code oder ein
 anderes Programm, das MCP spricht. Foundry muss dabei im Browser auf demselben PC laufen wie der
 Server. Ein Paket für den Mac gibt es noch nicht.
 
@@ -233,7 +233,7 @@ on, and deleting them is refused. Destructive tools can additionally require a o
 confirmation with a dry run first ("Confirm destructive tools"). `list-changes` shows the change
 log, and `undo-change` reverts an entry or a whole call where that is possible.
 
-Supported MCP clients are Claude Desktop (including the Store edition), Claude Code, Codex (CLI, app and IDE extension), Cursor and any
+Supported MCP clients are Claude Desktop (including the Store edition), Claude Code, Cursor and any
 client that starts MCP servers through `command` and `args`. The server runs on Windows 10 and 11.
 Without an adapter for the game system, a tool that needs one says so.
 
@@ -245,6 +245,16 @@ The full installation guide, including updating and uninstalling, is in
 
 Other Foundry modules can offer their own tools through this module. The interface is
 described in [docs/EXTENSION-TOOLS.md](docs/EXTENSION-TOOLS.md).
+
+## Codex
+
+Codex CLI, app and IDE extension can use the same MCP server. After installing the
+server, follow the [Codex setup guide](docs/INSTALLATION.en.md#codex) to register it
+or generate a TOML configuration with the paths for your machine.
+
+Codex-CLI, App und IDE-Erweiterung verwenden denselben MCP-Server. Nach der Installation
+führt die [Codex-Anleitung](docs/INSTALLATION.md#codex) durch die Registrierung oder
+die Ausgabe einer TOML-Konfiguration mit den Pfaden deines Rechners.
 
 ## Development
 

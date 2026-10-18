@@ -1,6 +1,19 @@
 Ninjo's Foundry MCP, PC server
 ==============================
 
+CODEX
+  Install the server first; Claude Desktop is not required.
+  Run the installed node (node.exe on Windows) with
+  app/build/server/install/cli.js configure-codex to register via the Codex CLI.
+  For manual TOML setup use print-config --client codex instead.
+  Before uninstalling, use remove-codex, then the usual uninstaller.
+  Den Server zuerst installieren; Claude Desktop ist nicht erforderlich.
+  Die installierte node-Laufzeit mit app/build/server/install/cli.js und
+  configure-codex aufrufen. TOML von Hand: print-config --client codex.
+  Vor dem Deinstallieren remove-codex aufrufen.
+  English: https://github.com/englishtom/ninjos-foundry-mcp/blob/main/docs/INSTALLATION.en.md#codex
+  Deutsch: https://github.com/englishtom/ninjos-foundry-mcp/blob/main/docs/INSTALLATION.md#codex
+
 DEUTSCH
 
 Installieren und aktualisieren
@@ -32,16 +45,3 @@ Remove
 
 Foundry installs and updates the Foundry module itself.
 Guide and troubleshooting: docs/INSTALLATION.en.md in the project.
-
-CODEX
-  Install the server first; Claude Desktop is not required.
-  Run the installed node (node.exe on Windows) with
-  app/build/server/install/cli.js configure-codex to register via the Codex CLI.
-  For manual TOML setup use print-config --client codex instead.
-  Before uninstalling, use remove-codex, then the usual uninstaller.
-  Den Server zuerst installieren; Claude Desktop ist nicht erforderlich.
-  Die installierte node-Laufzeit mit app/build/server/install/cli.js und
-  configure-codex aufrufen. TOML von Hand: print-config --client codex.
-  Vor dem Deinstallieren remove-codex aufrufen.
-  English: https://github.com/englishtom/ninjos-foundry-mcp/blob/main/docs/INSTALLATION.en.md#codex
-  Deutsch: https://github.com/englishtom/ninjos-foundry-mcp/blob/main/docs/INSTALLATION.md#codex
