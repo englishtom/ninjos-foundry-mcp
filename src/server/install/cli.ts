@@ -5,14 +5,17 @@
  *   install [--source <folder>] [--wait <seconds>] [--no-registry]
  *   uninstall [--wait <seconds>]
  *   status
- *   print-config
+ *   print-config [--client codex]
+ *   configure-codex | remove-codex
  *
  * People read this output after a double click, so it follows the language of
  * the system (German or English) and says what to do next.
  */
+import { existsSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { homedir } from 'node:os';
 import { fileURLToPath } from 'node:url';
+import { codexConfig, configureCodex, removeCodex } from './codex.js';
 import { readConfig } from '../config.js';
 import { systemProcessProbe } from '../lock.js';
 import { installLayout, SERVER_KEY } from './layout.js';
@@ -98,6 +101,7 @@ async function main(): Promise<number> {
       if (report.clients.some(c => c.addSkipped)) console.log(t.lookAlikeHint);
       if (report.claudeCodeWithoutEntry) console.log(t.claudeCodeHint(desiredEntry(report.layout)));
       if (report.legacyMacApp) console.log(t.legacyMacApp);
+      console.log(t.codexHint(desiredEntry(report.layout)));
       console.log(fine ? t.nextSteps : t.checkProblems);
       return fine ? 0 : 1;
     }
@@ -114,8 +118,28 @@ async function main(): Promise<number> {
       console.log(JSON.stringify(report, null, 2));
       return 0;
     }
+    case 'configure-codex': {
+      const layout = installLayout(host);
+      if (!existsSync(layout.node) || !existsSync(layout.wrapper)) {
+        throw new SetupError(t.installFirst);
+      }
+      const result = configureCodex(host.runner, desiredEntry(layout));
+      console.log(t.codexConfigured(result));
+      return 0;
+    }
+    case 'remove-codex': {
+      const names = removeCodex(host.runner, desiredEntry(installLayout(host)));
+      console.log(t.codexRemoved(names));
+      return 0;
+    }
     case 'print-config': {
       const layout = installLayout(host);
+      const client = option(args, '--client');
+      if (client === 'codex') {
+        process.stdout.write(codexConfig(desiredEntry(layout)));
+        return 0;
+      }
+      if (client !== undefined) throw new SetupError(`Unknown client: ${client}`);
       console.log(
         JSON.stringify(
           { mcpServers: { [SERVER_KEY]: { ...desiredEntry(layout), env: {} } } },
@@ -124,6 +148,7 @@ async function main(): Promise<number> {
         )
       );
       console.log(t.claudeCodeHint(desiredEntry(layout)));
+      console.log(t.codexHint(desiredEntry(layout)));
       return 0;
     }
     default:

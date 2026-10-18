@@ -88,8 +88,8 @@ rights for this. Then quit Claude Desktop completely and start it again.
 **Finally, load your world.** Open your world as the GM, and the module connects to the server.
 To try it out, just ask Claude which world is open in Foundry.
 
-For Claude Code, other clients and troubleshooting there is a detailed
-[installation guide](https://github.com/Niclasp1501/ninjos-foundry-mcp/blob/main/docs/INSTALLATION.en.md).
+For Claude Code, Codex, other clients and troubleshooting there is a detailed
+[installation guide](docs/INSTALLATION.en.md).
 
 You need Foundry VTT v13 or v14, a Windows PC, and Claude Desktop, Claude Code or another program
 that speaks MCP. Foundry has to run in a browser on the same PC as the server. There is no package
@@ -188,8 +188,8 @@ noch Administratorrechte. Beende Claude Desktop danach ganz und starte es neu.
 **Zum Schluss die Welt laden.** Öffne deine Welt als Spielleiter, und das Modul verbindet sich mit
 dem Server. Frag Claude zum Ausprobieren einfach, welche Welt gerade in Foundry geöffnet ist.
 
-Für Claude Code, andere Programme und die Fehlersuche gibt es eine ausführliche
-[Installationsanleitung](https://github.com/Niclasp1501/ninjos-foundry-mcp/blob/main/docs/INSTALLATION.md).
+Für Claude Code, Codex, andere Programme und die Fehlersuche gibt es eine ausführliche
+[Installationsanleitung](docs/INSTALLATION.md).
 
 Du brauchst Foundry VTT v13 oder v14, einen Windows-PC und Claude Desktop, Claude Code oder ein
 anderes Programm, das MCP spricht. Foundry muss dabei im Browser auf demselben PC laufen wie der
@@ -245,6 +245,16 @@ The full installation guide, including updating and uninstalling, is in
 
 Other Foundry modules can offer their own tools through this module. The interface is
 described in [docs/EXTENSION-TOOLS.md](docs/EXTENSION-TOOLS.md).
+
+## Codex
+
+Codex CLI, app and IDE extension can use the same MCP server. After installing the
+server, follow the [Codex setup guide](docs/INSTALLATION.en.md#codex) to register it
+or generate a TOML configuration with the paths for your machine.
+
+Codex-CLI, App und IDE-Erweiterung verwenden denselben MCP-Server. Nach der Installation
+führt die [Codex-Anleitung](docs/INSTALLATION.md#codex) durch die Registrierung oder
+die Ausgabe einer TOML-Konfiguration mit den Pfaden deines Rechners.
 
 ## Development
 

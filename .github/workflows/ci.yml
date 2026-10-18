@@ -1,5 +1,5 @@
 # Checks every push to main and every pull request: versions, types, language files, tests.
-# Runs only in the public repository; a copy of the code elsewhere builds nothing.
+# Checks also run in forks; publishing remains restricted to the upstream repository.
 name: CI
 
 on:
@@ -20,7 +20,6 @@ env:
 
 jobs:
   check:
-    if: github.repository == 'Niclasp1501/ninjos-foundry-mcp'
     name: Check (${{ matrix.os }})
     strategy:
       fail-fast: false
