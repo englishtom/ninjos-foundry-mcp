@@ -1,5 +1,5 @@
 # Checks every push to main and every pull request: versions, types, language files, tests.
-# Runs only in the public repository; a copy of the code elsewhere builds nothing.
+# Checks also run in forks; publishing remains restricted to the upstream repository.
 name: CI
 
 on:
@@ -20,14 +20,11 @@ env:
 
 jobs:
   check:
-    if: github.repository == 'Niclasp1501/ninjos-foundry-mcp'
     name: Check (${{ matrix.os }})
     strategy:
       fail-fast: false
       matrix:
-        # Windows is where the server and its setup are released and tested.
-        # Linux runs the same suite so platform assumptions show up early.
-        os: [windows-latest, ubuntu-latest]
+        os: [windows-latest, ubuntu-latest, macos-15, macos-15-intel]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -57,3 +54,10 @@ jobs:
 
       - name: Tests
         run: npm test
+
+      - name: Build and verify the macOS bundle
+        if: runner.os == 'macOS'
+        run: |
+          curl --fail --silent --show-error --location --output node-license.txt "https://raw.githubusercontent.com/nodejs/node/$(node --version)/LICENSE"
+          node installer/build.mjs --node-license node-license.txt
+          node installer/verify-bundle.mjs

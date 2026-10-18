@@ -3,5 +3,7 @@
 DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "${TMPDIR:-/tmp}" || exit 1
 "$DIR/node" "$DIR/app/build/server/install/cli.js" uninstall "$@"
+result=$?
 printf '\nPress Enter to close. / Enter zum Schliessen.\n'
 read -r _
+exit "$result"

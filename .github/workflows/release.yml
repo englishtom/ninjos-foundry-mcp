@@ -1,7 +1,7 @@
 # Release on a tag v<version>, for example v14.2609.4:
 #   1. check that the tag and every version source agree, install, typecheck, check the
 #      language files, run the tests, build
-#   2. pack module.zip and module.json for Foundry and the Windows setup bundle
+#   2. pack module.zip and module.json for Foundry and the Windows and macOS setup bundles
 #   3. create the GitHub release; its text is the CHANGELOG section of this version only
 #   4. submit the version to the Foundry package listing, if PACKAGE_TOKEN is set
 #
@@ -81,15 +81,19 @@ jobs:
             installer/out/*.zip
             installer/out/*.zip.sha256
 
-  # Disabled: the macOS bundle is not ready (still open:
-  # whether it ships at all, which architectures, and whether Gatekeeper quarantine of an
-  # unnotarized runtime blocks the start from Claude). To enable it, remove "false &&"
-  # below and add "macos-bundle" to "needs" of the release job.
   macos-bundle:
-    if: false && github.repository == 'Niclasp1501/ninjos-foundry-mcp'
-    name: Build the macOS setup bundle (disabled)
+    if: github.repository == 'Niclasp1501/ninjos-foundry-mcp'
+    name: Build the macOS setup bundle (${{ matrix.arch }})
     needs: build
-    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-15
+            arch: arm64
+          - os: macos-15-intel
+            arch: x64
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7
 
@@ -105,11 +109,14 @@ jobs:
         run: curl --fail --silent --show-error --location --output node-license.txt "https://raw.githubusercontent.com/nodejs/node/$(node --version)/LICENSE"
 
       - name: Build the macOS setup bundle
-        run: node installer/build.mjs --platform darwin --arch arm64 --node-license node-license.txt
+        run: node installer/build.mjs --platform darwin --arch "${{ matrix.arch }}" --node-license node-license.txt
+
+      - name: Verify the macOS bundle
+        run: node installer/verify-bundle.mjs
 
       - uses: actions/upload-artifact@v7
         with:
-          name: release-files-macos
+          name: release-files-macos-${{ matrix.arch }}
           if-no-files-found: error
           path: |
             installer/out/*.zip
@@ -118,7 +125,7 @@ jobs:
   release:
     if: github.repository == 'Niclasp1501/ninjos-foundry-mcp'
     name: GitHub release
-    needs: build
+    needs: [build, macos-bundle]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -129,6 +136,12 @@ jobs:
         with:
           name: release-files
           path: release-files
+
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: release-files-macos-*
+          path: release-files/installer/out
+          merge-multiple: true
 
       - name: Release text from CHANGELOG.md
         run: VERSION="${TAG#v}" python3 .github/scripts/release_notes.py

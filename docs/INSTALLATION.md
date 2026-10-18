@@ -34,11 +34,13 @@ kannst du löschen.
 
 ### Mac
 
-1. Die Datei `ninjos-foundry-mcp-server-<version>-darwin-<arm64 oder x64>.zip`
-   herunterladen und doppelklicken, damit sie entpackt wird.
-2. Im entpackten Ordner **Rechtsklick** auf `setup.command`, dann „Öffnen", dann noch
-   einmal „Öffnen". Ein einfacher Doppelklick wird beim ersten Mal abgewiesen, weil das
-   Paket noch nicht von Apple beglaubigt ist.
+1. Wähle `ninjos-foundry-mcp-server-<version>-darwin-arm64.zip` für einen Mac mit
+   Apple Silicon (M1 oder neuer), oder `darwin-x64.zip` für einen Intel-Mac.
+   Entpacke es mit dem Finder.
+2. Öffne `setup.command`. Wenn macOS es blockiert, prüfe die Meldung unter
+   Systemeinstellungen, Datenschutz & Sicherheit und wähle „Dennoch öffnen" nur,
+   wenn du dem Paket vertraust. Das Paket ist nicht notarisiert. Auch die enthaltene
+   `node`-Laufzeit kann eine Freigabe benötigen, bevor Einrichtung oder MCP-Client starten.
 3. Das Terminalfenster zeigt, was eingerichtet wurde. Enter drücken.
 4. Claude Desktop beenden (Cmd+Q) und neu starten.
 

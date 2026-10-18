@@ -81,7 +81,7 @@ Then enable it in your world.
 **Then the server on your PC.** Download the server package
 `ninjos-foundry-mcp-server-…-win32-x64.zip` from the
 [releases page](https://github.com/Niclasp1501/ninjos-foundry-mcp/releases/latest), unpack it
-and double click `setup.cmd`. Setup registers the server with Claude Desktop and takes over an
+and double click `setup.cmd`. On macOS, choose the `darwin-arm64.zip` package for Apple silicon or `darwin-x64.zip` for Intel, then open `setup.command` as described in the installation guide. Setup registers the server with Claude Desktop and takes over an
 existing installation along with your settings. You need neither Node.js nor administrator
 rights for this. Then quit Claude Desktop completely and start it again.
 
@@ -91,9 +91,8 @@ To try it out, just ask Claude which world is open in Foundry.
 For Claude Code, other clients and troubleshooting there is a detailed
 [installation guide](https://github.com/Niclasp1501/ninjos-foundry-mcp/blob/main/docs/INSTALLATION.en.md).
 
-You need Foundry VTT v13 or v14, a Windows PC, and Claude Desktop, Claude Code or another program
-that speaks MCP. Foundry has to run in a browser on the same PC as the server. There is no package
-for the Mac yet.
+You need Foundry VTT v13 or v14, a Windows PC or Mac, and Claude Desktop, Claude Code or another program
+that speaks MCP. Foundry has to run in a browser on the same PC as the server.
 
 ### Coming from an older version
 
@@ -182,7 +181,7 @@ Danach aktivierst du es in deiner Welt.
 [Seite mit den Veröffentlichungen](https://github.com/Niclasp1501/ninjos-foundry-mcp/releases/latest)
 das Serverpaket `ninjos-foundry-mcp-server-…-win32-x64.zip` herunter, entpacke es und starte
 `setup.cmd` mit einem Doppelklick. Die Einrichtung meldet den Server bei Claude Desktop an und
-übernimmt eine vorhandene Installation samt deiner Einstellungen. Du brauchst dafür weder Node.js
+übernimmt eine vorhandene Installation samt deiner Einstellungen. Auf dem Mac wähle `darwin-arm64.zip` für Apple Silicon oder `darwin-x64.zip` für Intel und starte `setup.command` wie in der Installationsanleitung beschrieben. Du brauchst dafür weder Node.js
 noch Administratorrechte. Beende Claude Desktop danach ganz und starte es neu.
 
 **Zum Schluss die Welt laden.** Öffne deine Welt als Spielleiter, und das Modul verbindet sich mit
@@ -191,9 +190,9 @@ dem Server. Frag Claude zum Ausprobieren einfach, welche Welt gerade in Foundry 
 Für Claude Code, andere Programme und die Fehlersuche gibt es eine ausführliche
 [Installationsanleitung](https://github.com/Niclasp1501/ninjos-foundry-mcp/blob/main/docs/INSTALLATION.md).
 
-Du brauchst Foundry VTT v13 oder v14, einen Windows-PC und Claude Desktop, Claude Code oder ein
+Du brauchst Foundry VTT v13 oder v14, einen Windows-PC oder Mac und Claude Desktop, Claude Code oder ein
 anderes Programm, das MCP spricht. Foundry muss dabei im Browser auf demselben PC laufen wie der
-Server. Ein Paket für den Mac gibt es noch nicht.
+Server.
 
 ### Wenn du von einer älteren Version kommst
 
@@ -234,7 +233,7 @@ confirmation with a dry run first ("Confirm destructive tools"). `list-changes` 
 log, and `undo-change` reverts an entry or a whole call where that is possible.
 
 Supported MCP clients are Claude Desktop (including the Store edition), Claude Code, Cursor and any
-client that starts MCP servers through `command` and `args`. The server runs on Windows 10 and 11.
+client that starts MCP servers through `command` and `args`. The server runs on Windows 10 and 11 and macOS (Apple silicon and Intel).
 Without an adapter for the game system, a tool that needs one says so.
 
 The full installation guide, including updating and uninstalling, is in
