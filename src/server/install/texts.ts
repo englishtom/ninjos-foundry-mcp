@@ -18,6 +18,10 @@ export interface Texts {
   client(outcome: FileOutcome & { client: ClientId }): string;
   lookAlikeHint: string;
   claudeCodeHint(entry: DesiredEntry): string;
+  codexHint(entry: DesiredEntry): string;
+  installFirst: string;
+  codexConfigured(result: 'added' | 'unchanged'): string;
+  codexRemoved(names: string[]): string;
   legacyMacApp: string;
   nextSteps: string;
   checkProblems: string;
@@ -52,7 +56,7 @@ const english: Texts = {
   restartNeeded: 'Restart Claude so it uses the new version.',
   registryProblem: problem => `The entry under "Apps" could not be written: ${problem}`,
   noClients:
-    'No Claude Desktop found. Start Claude Desktop once, then run this setup again, or add the server by hand (see README.txt).',
+    'No automatically configured client found. For Codex use configure-codex, or add the server by hand (see README.txt).',
   client: o => {
     const name = CLIENT_NAMES[o.client];
     const keys = o.changes.map(c => c.key).join(', ');
@@ -72,16 +76,23 @@ const english: Texts = {
   lookAlikeHint:
     'A configuration already has an entry that looks like this server under another name. It was left alone so the tools do not appear twice.',
   claudeCodeHint: entry => `To use it in Claude Code as well:\n  ${claudeCodeCommand(entry)}`,
+  installFirst: 'Install the server with setup.cmd or setup.command before configuring Codex.',
+  codexHint: () =>
+    'For Codex: run this CLI with configure-codex, or copy the output of print-config --client codex into your Codex config.toml (see the installation guide).',
+  codexConfigured: result => `Codex: ${result}. Restart Codex, then check foundry-mcp with /mcp.`,
+  codexRemoved: names =>
+    `Codex: ${names.length ? `removed ${names.join(', ')}` : 'no entry for this installation'}.`,
   legacyMacApp:
     'The old program folder /Applications/FoundryMCPServer.app is no longer used. You can move it to the Trash.',
-  nextSteps: 'Done. Restart Claude Desktop, then open your Foundry world as Gamemaster.',
+  nextSteps:
+    'Done. Restart your configured MCP client, then open your Foundry world as Gamemaster.',
   checkProblems: 'Setup finished with problems. Nothing was overwritten; see the lines above.',
   uninstalled: (root, kept) =>
     kept.length === 0
       ? `Ninjo's Foundry MCP was removed from ${root}.`
       : `Ninjo's Foundry MCP was removed. Kept in ${root}, because it is your data: ${kept.join(', ')}`,
   usage:
-    'Usage: install [--source <folder>] [--wait <seconds>] [--no-registry] | uninstall | status | print-config',
+    'Usage: install [--source <folder>] [--wait <seconds>] [--no-registry] | uninstall | status | print-config [--client codex] | configure-codex | remove-codex',
   crashed: error => `Setup stopped unexpectedly: ${errorText(error)}`,
 };
 
@@ -95,7 +106,7 @@ const german: Texts = {
   restartNeeded: 'Claude neu starten, damit die neue Fassung benutzt wird.',
   registryProblem: problem => `Der Eintrag unter „Apps" ließ sich nicht schreiben: ${problem}`,
   noClients:
-    'Kein Claude Desktop gefunden. Claude Desktop einmal starten und die Einrichtung erneut ausführen, oder den Server von Hand eintragen (siehe README.txt).',
+    'Kein automatisch eingerichteter Client gefunden. Für Codex configure-codex verwenden oder den Server von Hand eintragen (siehe README.txt).',
   client: o => {
     const name = CLIENT_NAMES[o.client];
     const keys = o.changes.map(c => c.key).join(', ');
@@ -121,9 +132,18 @@ const german: Texts = {
   lookAlikeHint:
     'Eine Konfiguration hat schon einen Eintrag unter anderem Namen, der wie dieser Server aussieht. Er bleibt, wie er ist, damit die Werkzeuge nicht doppelt erscheinen.',
   claudeCodeHint: entry => `Für Claude Code zusätzlich:\n  ${claudeCodeCommand(entry)}`,
+  installFirst:
+    'Den Server zuerst mit setup.cmd oder setup.command installieren, dann Codex einrichten.',
+  codexHint: () =>
+    'Für Codex: diese CLI mit configure-codex aufrufen, oder die Ausgabe von print-config --client codex in die Codex-Datei config.toml übernehmen (siehe Installationsanleitung).',
+  codexConfigured: result =>
+    `Codex: ${result === 'added' ? 'hinzugefügt' : 'unverändert'}. Codex neu starten und foundry-mcp mit /mcp prüfen.`,
+  codexRemoved: names =>
+    `Codex: ${names.length ? `${names.join(', ')} entfernt` : 'kein Eintrag für diese Installation'}.`,
   legacyMacApp:
     'Der alte Programmordner /Applications/FoundryMCPServer.app wird nicht mehr benutzt und kann in den Papierkorb.',
-  nextSteps: 'Fertig. Claude Desktop neu starten, dann die Foundry-Welt als Spielleitung öffnen.',
+  nextSteps:
+    'Fertig. Den eingerichteten MCP-Client neu starten, dann die Foundry-Welt als Spielleitung öffnen.',
   checkProblems:
     'Einrichtung mit Problemen beendet. Nichts wurde überschrieben; Einzelheiten stehen oben.',
   uninstalled: (root, kept) =>
@@ -131,7 +151,7 @@ const german: Texts = {
       ? `Ninjo's Foundry MCP wurde aus ${root} entfernt.`
       : `Ninjo's Foundry MCP wurde entfernt. In ${root} bleibt, weil es deine Daten sind: ${kept.join(', ')}`,
   usage:
-    'Aufruf: install [--source <Ordner>] [--wait <Sekunden>] [--no-registry] | uninstall | status | print-config',
+    'Aufruf: install [--source <Ordner>] [--wait <Sekunden>] [--no-registry] | uninstall | status | print-config [--client codex] | configure-codex | remove-codex',
   crashed: error => `Die Einrichtung ist unerwartet abgebrochen: ${errorText(error)}`,
 };
 

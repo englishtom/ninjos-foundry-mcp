@@ -13,7 +13,7 @@ Deutsche Fassung: [INSTALLATION.md](INSTALLATION.md).
 ## Requirements
 
 - Windows 10 or 11, or macOS
-- Claude Desktop, started once. Claude Code and other MCP clients work too, see below.
+- Claude Desktop, Claude Code, Codex or another MCP client. Start Claude Desktop once if you use it.
 - **No Node.js needed.** The bundle brings its own runtime.
 - No administrator rights needed.
 
@@ -70,6 +70,62 @@ For any other client that starts MCP servers through `command` and `args`:
 
 The command `print-config` prints the finished block with the paths of your machine
 (see "Troubleshooting").
+
+## Codex
+
+Codex uses the same local stdio server. Install the server package first; Claude Desktop
+is not required. The Codex CLI, app and IDE extension share the MCP configuration in
+`~/.codex/config.toml` (or `config.toml` under `CODEX_HOME` when set).
+
+With the Codex CLI on PATH, run the installed setup CLI in a terminal:
+
+Windows (Command Prompt):
+
+```bat
+"%LOCALAPPDATA%\FoundryMCPServer\node.exe" "%LOCALAPPDATA%\FoundryMCPServer\app\build\server\install\cli.js" configure-codex
+```
+
+macOS (Terminal):
+
+```sh
+"$HOME/Library/Application Support/FoundryMCPServer/node" "$HOME/Library/Application Support/FoundryMCPServer/app/build/server/install/cli.js" configure-codex
+```
+
+This calls `codex mcp add foundry-mcp -- <runtime> <wrapper>`, then reads the entry back.
+Existing entries that already point here are left unchanged, including environment
+variables, tool permissions and timeouts. A conflicting entry or an old installation
+is left alone; update only its `command` and `args` manually with the output below.
+Updates keep the installation path, so you do not need to register again.
+
+### Manual setup and troubleshooting
+
+Run the same setup CLI with `print-config --client codex` instead of `configure-codex`
+to print a TOML block with absolute paths for your machine. Add it to your Codex
+`config.toml`. Keep any existing `[mcp_servers.foundry-mcp]` settings; do not add a
+second table with that name. This also works when the Codex CLI is unavailable on PATH
+or a Windows npm command shim cannot be started by setup.
+
+For a source checkout, run `npm ci` and `npm run build:server`, then register directly:
+
+```sh
+codex mcp add foundry-mcp -- node /absolute/path/to/ninjos-foundry-mcp/build/server/wrapper.js
+```
+
+Use a Node 24+ executable and absolute paths (quote any path containing spaces).
+Restart Codex, check `codex mcp list` or `/mcp` in the CLI, then open Foundry as GM on the
+same computer and ask which world is open. In the app, check the MCP server settings.
+No changes to the Foundry module or tool permissions are needed.
+
+For Gemini, put `GEMINI_API_KEY` under `[mcp_servers.foundry-mcp.env]` in `config.toml`;
+keep keys out of this repository. If image generation exceeds Codex's default tool
+limit, set `tool_timeout_sec = 240` in `[mcp_servers.foundry-mcp]`.
+
+Before uninstalling the server, run the setup CLI with `remove-codex`. It removes only
+entries that start this installation and verifies removal. Alternatively use
+`codex mcp remove foundry-mcp` for an entry you registered under that name. Then run
+the usual uninstaller. Setup never edits Codex's TOML itself.
+
+Configuration reference: [OpenAI MCP documentation](https://developers.openai.com/codex/mcp).
 
 ## Battle maps and scene images with Gemini
 
